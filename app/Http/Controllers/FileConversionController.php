@@ -26,6 +26,20 @@ class FileConversionController extends Controller
     }
 
     /**
+     * Show the limit reached page
+     */
+    public function limitReached(Request $request)
+    {
+        $limit = $request->query('limit', 50);
+        $isPremium = $request->query('isPremium', false);
+        
+        return view('limit-reached', [
+            'limit' => $limit,
+            'isPremium' => $isPremium
+        ]);
+    }
+
+    /**
      * Convert PDF to Word
      */
     public function pdfToWord(Request $request)

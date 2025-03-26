@@ -27,13 +27,28 @@ class ConversionLimitMiddleware
             return $next($request);
         }
         
-        // Check if the user has reached their conversion limit
-        $limit = ($user->role === 1) ? 1000 : 50; // Premium vs Free user
+        // Premium users (role 1) have unlimited conversions
+        if ($user->role === 1) {
+            return $next($request);
+        }
         
-        if ($user->usage_count >= $limit) {
-            return response()->view('limit-reached', [
-                'limit' => $limit,
-                'isPremium' => $user->role === 1
+        // For free users (role 0), get the limit and check usage
+        $baseLimit = 50; // Base limit for free users
+        
+        // Add any additional limit increases from donations
+        $additionalLimit = 0;
+        if ($user->additional_data) {
+            $userData = json_decode($user->additional_data, true);
+            $additionalLimit = $userData['limit_increases'] ?? 0;
+        }
+        
+        $totalLimit = $baseLimit + $additionalLimit;
+        
+        // Check if the user has reached their conversion limit
+        if ($user->usage_count >= $totalLimit) {
+            return redirect()->route('limit.reached', [
+                'limit' => $totalLimit,
+                'isPremium' => false
             ]);
         }
         

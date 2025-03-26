@@ -10,13 +10,16 @@ class SuperAdminMiddleware
 {
     /**
      * Handle an incoming request.
+     *
+     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!auth()->check() || auth()->user()->role !== 2) {
-            abort(403, 'Access denied. Super Admin only.');
+        // Check if user is authenticated and is a super admin (role = 2)
+        if (!$request->user() || $request->user()->role !== 2) {
+            return redirect()->route('dashboard')->with('error', 'You do not have permission to access this area.');
         }
-
+        
         return $next($request);
     }
 } 
