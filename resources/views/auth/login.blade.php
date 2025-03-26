@@ -17,6 +17,12 @@
             </div>
         @endif
 
+        @if (session('error'))
+            <div class="mb-4 font-medium text-sm text-red-600">
+                {{ session('error') }}
+            </div>
+        @endif
+
         <form method="POST" action="{{ route('login') }}">
             @csrf
 
@@ -77,7 +83,7 @@
             </div>
 
             <div class="mt-6">
-                <a href="/auth/google"
+                <a href="{{ route('auth.google') }}"
                     class="social-btn w-full inline-flex justify-center py-3 px-4 border border-gray-300 dark:border-gray-700 rounded-lg shadow-sm bg-white dark:bg-gray-800 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-300">
                     <svg class="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path

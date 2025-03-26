@@ -2,7 +2,7 @@
 
 namespace App\Http;
 
-use App\Http\Middleware\CheckConversionLimit;
+use App\Http\Middleware\ConversionLimitMiddleware;
 use App\Http\Middleware\SuperAdminMiddleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -67,6 +67,6 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'superadmin' => SuperAdminMiddleware::class,
-        'conversion.limit' => CheckConversionLimit::class,
+        'conversion.limit' => ConversionLimitMiddleware::class,
     ];
 } 
