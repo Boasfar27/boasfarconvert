@@ -4,10 +4,13 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description"
+        content="BoasFarConvert - The ultimate file conversion platform. Convert documents, images, audio and more with our powerful tools.">
     <title>{{ config('app.name', 'BoasFarConvert') }} - File Conversion Made Easy</title>
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700|instrument-sans:400,500,600" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
         /* Preloader */
@@ -20,9 +23,10 @@
             background-color: #ffffff;
             z-index: 9999;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            transition: opacity 0.5s ease-in-out;
+            transition: opacity 0.8s ease-in-out, visibility 0.8s;
         }
 
         .dark .preloader {
@@ -31,50 +35,192 @@
 
         .preloader.fade-out {
             opacity: 0;
-            pointer-events: none;
+            visibility: hidden;
         }
 
-        .loader {
-            position: relative;
-            width: 64px;
-            height: 64px;
+        .preloader-content {
+            text-align: center;
+            max-width: 90%;
+            width: 600px;
+            padding: 0 16px;
+            margin: 0 auto;
         }
 
-        .loader:before,
-        .loader:after {
-            content: "";
-            position: absolute;
-            border-radius: 50%;
-            animation: pulse 1.8s ease-in-out infinite;
+        .preloader-logo {
+            max-width: 60%;
+            width: 240px;
+            height: auto;
+            margin: 0 auto 30px;
+            animation: logo-pulse 2s ease-in-out infinite;
         }
 
-        .loader:before {
-            width: 64px;
-            height: 64px;
-            background: rgba(99, 102, 241, 0.2);
-            animation-delay: -0.5s;
-        }
-
-        .loader:after {
-            width: 32px;
-            height: 32px;
-            background: rgba(99, 102, 241, 0.6);
-            margin: 16px;
-            animation-delay: 0s;
-        }
-
-        @keyframes pulse {
-
-            0%,
-            100% {
-                transform: scale(0);
+        @keyframes logo-pulse {
+            0% {
+                transform: scale(1);
                 opacity: 1;
             }
 
             50% {
-                transform: scale(1);
-                opacity: 0.25;
+                transform: scale(1.05);
+                opacity: 0.9;
             }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .preloader-text {
+            font-size: clamp(16px, 4vw, 20px);
+            font-weight: 600;
+            color: #4f46e5;
+            margin-bottom: 20px;
+            opacity: 0;
+            animation: fade-in 0.6s ease forwards;
+            animation-delay: 0.4s;
+        }
+
+        .preloader-description {
+            font-size: clamp(14px, 3vw, 16px);
+            line-height: 1.6;
+            color: #6b7280;
+            margin-bottom: 35px;
+            opacity: 0;
+            animation: fade-in 0.6s ease forwards;
+            animation-delay: 0.6s;
+        }
+
+        .dark .preloader-description {
+            color: #9ca3af;
+        }
+
+        @keyframes fade-in {
+            0% {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .preloader-progress-container {
+            width: 100%;
+            height: 6px;
+            background-color: rgba(99, 102, 241, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 15px;
+            position: relative;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .preloader-progress {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #4f46e5, #6366f1, #818cf8);
+            background-size: 200% 100%;
+            animation: loading-progress 3s ease forwards, gradient-shift 2s linear infinite;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(99, 102, 241, 0.3);
+        }
+
+        @keyframes loading-progress {
+            0% {
+                width: 0%;
+            }
+
+            10% {
+                width: 5%;
+            }
+
+            20% {
+                width: 15%;
+            }
+
+            30% {
+                width: 25%;
+            }
+
+            40% {
+                width: 40%;
+            }
+
+            50% {
+                width: 50%;
+            }
+
+            60% {
+                width: 65%;
+            }
+
+            70% {
+                width: 75%;
+            }
+
+            80% {
+                width: 85%;
+            }
+
+            90% {
+                width: 95%;
+            }
+
+            100% {
+                width: 100%;
+            }
+        }
+
+        @keyframes gradient-shift {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .preloader-status {
+            font-size: 14px;
+            color: #6b7280;
+            text-align: center;
+            margin-top: 5px;
+            min-height: 20px;
+            font-weight: 500;
+        }
+
+        .preloader-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            opacity: 0;
+            animation: fade-in 0.6s ease forwards;
+            animation-delay: 1s;
+        }
+
+        .preloader-stat {
+            text-align: center;
+            padding: 0 5px;
+        }
+
+        .preloader-stat-number {
+            font-size: clamp(18px, 5vw, 24px);
+            font-weight: 700;
+            color: #4f46e5;
+            margin-bottom: 4px;
+        }
+
+        .preloader-stat-label {
+            font-size: clamp(12px, 3vw, 14px);
+            color: #6b7280;
         }
 
         /* Animated Background */
@@ -153,13 +299,67 @@
             transform: translateY(-10px);
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
+
+        /* Animation for the blob */
+        @keyframes blob-animation {
+
+            0%,
+            100% {
+                border-radius: 66% 34% 33% 67% / 55% 27% 73% 45%;
+            }
+
+            25% {
+                border-radius: 45% 55% 62% 38% / 53% 51% 49% 47%;
+            }
+
+            50% {
+                border-radius: 33% 67% 58% 42% / 63% 68% 32% 37%;
+            }
+
+            75% {
+                border-radius: 49% 51% 43% 57% / 44% 67% 33% 56%;
+            }
+        }
+
+        .animate-blob {
+            animation: blob-animation 10s linear infinite;
+        }
     </style>
 </head>
 
 <body class="antialiased bg-gray-50 dark:bg-gray-900">
-    <!-- Preloader -->
+    <!-- Professional Preloader -->
     <div class="preloader">
-        <div class="loader"></div>
+        <div class="preloader-content">
+            <div class="flex justify-center items-center mb-8">
+                <img src="{{ asset('images/logo.png') }}" alt="BoasFarConvert Logo" class="preloader-logo mx-auto">
+            </div>
+            <div class="preloader-text">The Ultimate File Conversion Platform</div>
+            <p class="preloader-description">
+                We're preparing our powerful conversion tools to help you transform your files quickly, accurately, and
+                securely.
+                Our platform is optimized to give you the best conversion experience possible.
+            </p>
+            <div class="preloader-progress-container">
+                <div class="preloader-progress"></div>
+            </div>
+            <div class="preloader-status">Loading application...</div>
+
+            <div class="preloader-stats">
+                <div class="preloader-stat">
+                    <div class="preloader-stat-number">50+</div>
+                    <div class="preloader-stat-label">File Formats</div>
+                </div>
+                <div class="preloader-stat">
+                    <div class="preloader-stat-number">10M+</div>
+                    <div class="preloader-stat-label">Conversions</div>
+                </div>
+                <div class="preloader-stat">
+                    <div class="preloader-stat-number">99.9%</div>
+                    <div class="preloader-stat-label">Accuracy</div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="min-h-screen flex flex-col overflow-hidden">
@@ -167,16 +367,17 @@
         <x-header />
 
         <!-- Hero Section -->
-        <section class="animated-bg text-white py-24 relative">
+        <section class="animated-bg text-white py-12 md:py-24 relative">
             <div class="absolute inset-0 bg-gradient-to-r from-indigo-900/70 to-blue-900/70"></div>
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center">
                     <div data-aos="fade-right" data-aos-duration="1000">
-                        <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-6 leading-tight">
+                        <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold mb-6 leading-tight">
                             Transform Your Files <span
                                 class="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-blue-400">Effortlessly</span>
                         </h1>
-                        <p class="text-xl mb-8 text-gray-200">Powerful conversion tools that make file transformation
+                        <p class="text-lg sm:text-xl mb-8 text-gray-200">Powerful conversion tools that make file
+                            transformation
                             simple, fast, and reliable.</p>
                         <div class="flex flex-col sm:flex-row gap-4">
                             @if (Route::has('login'))
@@ -205,10 +406,10 @@
                                 class="absolute -top-6 -left-6 w-72 h-72 bg-blue-600 rounded-full mix-blend-multiply filter blur-2xl opacity-20 animate-blob">
                             </div>
                             <div
-                                class="absolute -bottom-8 -right-8 w-72 h-72 bg-teal-400 rounded-full mix-blend-multiply filter blur-2xl opacity-20 animate-blob animation-delay-2000">
+                                class="absolute -bottom-8 -right-8 w-72 h-72 bg-teal-400 rounded-full mix-blend-multiply filter blur-2xl opacity-20 animate-blob">
                             </div>
                             <div
-                                class="absolute -bottom-8 -left-8 w-72 h-72 bg-indigo-400 rounded-full mix-blend-multiply filter blur-2xl opacity-20 animate-blob animation-delay-4000">
+                                class="absolute -bottom-8 -left-8 w-72 h-72 bg-indigo-400 rounded-full mix-blend-multiply filter blur-2xl opacity-20 animate-blob">
                             </div>
                             <img src="https://placehold.co/600x400/667eea/FFFFFF/png?text=File+Conversion+Tools&font=montserrat"
                                 alt="File Conversion" class="float relative rounded-lg shadow-2xl">
@@ -228,90 +429,100 @@
         </section>
 
         <!-- Features Section -->
-        <section class="py-20 bg-white dark:bg-gray-800 relative overflow-hidden">
+        <section class="py-12 md:py-20 bg-white dark:bg-gray-800 relative overflow-hidden">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                <div class="text-center mb-16" data-aos="fade-up" data-aos-duration="800">
-                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">Powerful Conversion
-                        Features</h2>
-                    <p class="text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">Our platform offers a wide
+                <div class="text-center mb-12 md:mb-16" data-aos="fade-up" data-aos-duration="800">
+                    <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">Powerful
+                        Conversion Features</h2>
+                    <p class="text-base md:text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">Our platform
+                        offers a wide
                         range of conversion tools designed to handle all your file transformation needs.</p>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
                     <!-- Document Conversion -->
-                    <div class="feature-card bg-gray-50 dark:bg-gray-700 p-8 rounded-xl shadow-md" data-aos="fade-up"
-                        data-aos-duration="800" data-aos-delay="100">
+                    <div class="feature-card bg-gray-50 dark:bg-gray-700 p-6 md:p-8 rounded-xl shadow-md"
+                        data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
                         <div
-                            class="w-16 h-16 bg-indigo-100 dark:bg-indigo-900 rounded-2xl flex items-center justify-center mb-6">
+                            class="w-14 h-14 md:w-16 md:h-16 bg-indigo-100 dark:bg-indigo-900 rounded-2xl flex items-center justify-center mb-6">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-indigo-600 dark:text-indigo-400"
                                 fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                             </svg>
                         </div>
-                        <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">PDF & Word Conversion</h3>
-                        <p class="text-gray-600 dark:text-gray-300 mb-4">Convert PDF to Word and Word to PDF with
+                        <h3 class="text-xl md:text-2xl font-semibold text-gray-900 dark:text-white mb-4">PDF & Word
+                            Conversion</h3>
+                        <p class="text-base text-gray-600 dark:text-gray-300 mb-4">Convert PDF to Word and Word to PDF
+                            with
                             perfect formatting and layout preservation.</p>
                         <ul class="space-y-2 text-gray-500 dark:text-gray-400">
                             <li class="flex items-center">
-                                <svg class="w-4 h-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                <svg class="w-4 h-4 mr-2 text-green-500 flex-shrink-0" fill="currentColor"
+                                    viewBox="0 0 20 20">
                                     <path fill-rule="evenodd"
                                         d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
                                         clip-rule="evenodd"></path>
                                 </svg>
-                                Maintain tables and layouts
+                                <span>Maintain tables and layouts</span>
                             </li>
                             <li class="flex items-center">
-                                <svg class="w-4 h-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                <svg class="w-4 h-4 mr-2 text-green-500 flex-shrink-0" fill="currentColor"
+                                    viewBox="0 0 20 20">
                                     <path fill-rule="evenodd"
                                         d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
                                         clip-rule="evenodd"></path>
                                 </svg>
-                                Preserve fonts and styles
+                                <span>Preserve fonts and styles</span>
                             </li>
                         </ul>
                     </div>
 
                     <!-- Image Conversion -->
-                    <div class="feature-card bg-gray-50 dark:bg-gray-700 p-8 rounded-xl shadow-md" data-aos="fade-up"
-                        data-aos-duration="800" data-aos-delay="200">
+                    <div class="feature-card bg-gray-50 dark:bg-gray-700 p-6 md:p-8 rounded-xl shadow-md"
+                        data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
                         <div
-                            class="w-16 h-16 bg-indigo-100 dark:bg-indigo-900 rounded-2xl flex items-center justify-center mb-6">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-indigo-600 dark:text-indigo-400"
-                                fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            class="w-14 h-14 md:w-16 md:h-16 bg-indigo-100 dark:bg-indigo-900 rounded-2xl flex items-center justify-center mb-6">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                class="h-8 w-8 text-indigo-600 dark:text-indigo-400" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                             </svg>
                         </div>
-                        <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Image Format Conversion
+                        <h3 class="text-xl md:text-2xl font-semibold text-gray-900 dark:text-white mb-4">Image Format
+                            Conversion
                         </h3>
-                        <p class="text-gray-600 dark:text-gray-300 mb-4">Convert JPG and PNG images to WebP format for
+                        <p class="text-base text-gray-600 dark:text-gray-300 mb-4">Convert JPG and PNG images to WebP
+                            format for
                             faster websites and reduced file sizes.</p>
                         <ul class="space-y-2 text-gray-500 dark:text-gray-400">
                             <li class="flex items-center">
-                                <svg class="w-4 h-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                <svg class="w-4 h-4 mr-2 text-green-500 flex-shrink-0" fill="currentColor"
+                                    viewBox="0 0 20 20">
                                     <path fill-rule="evenodd"
                                         d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
                                         clip-rule="evenodd"></path>
                                 </svg>
-                                Reduce file size by up to 80%
+                                <span>Reduce file size by up to 80%</span>
                             </li>
                             <li class="flex items-center">
-                                <svg class="w-4 h-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                <svg class="w-4 h-4 mr-2 text-green-500 flex-shrink-0" fill="currentColor"
+                                    viewBox="0 0 20 20">
                                     <path fill-rule="evenodd"
                                         d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
                                         clip-rule="evenodd"></path>
                                 </svg>
-                                Maintain image quality
+                                <span>Maintain image quality</span>
                             </li>
                         </ul>
                     </div>
 
                     <!-- Audio/Voice Conversion -->
-                    <div class="feature-card bg-gray-50 dark:bg-gray-700 p-8 rounded-xl shadow-md" data-aos="fade-up"
-                        data-aos-duration="800" data-aos-delay="300">
+                    <div class="feature-card bg-gray-50 dark:bg-gray-700 p-6 md:p-8 rounded-xl shadow-md"
+                        data-aos="fade-up" data-aos-duration="800" data-aos-delay="300">
                         <div
-                            class="w-16 h-16 bg-indigo-100 dark:bg-indigo-900 rounded-2xl flex items-center justify-center mb-6">
+                            class="w-14 h-14 md:w-16 md:h-16 bg-indigo-100 dark:bg-indigo-900 rounded-2xl flex items-center justify-center mb-6">
                             <svg xmlns="http://www.w3.org/2000/svg"
                                 class="h-8 w-8 text-indigo-600 dark:text-indigo-400" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor">
@@ -319,26 +530,30 @@
                                     d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
                             </svg>
                         </div>
-                        <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Voice & Text Conversion
+                        <h3 class="text-xl md:text-2xl font-semibold text-gray-900 dark:text-white mb-4">Voice & Text
+                            Conversion
                         </h3>
-                        <p class="text-gray-600 dark:text-gray-300 mb-4">Transform voice recordings to text and convert
+                        <p class="text-base text-gray-600 dark:text-gray-300 mb-4">Transform voice recordings to text
+                            and convert
                             text to natural-sounding speech.</p>
                         <ul class="space-y-2 text-gray-500 dark:text-gray-400">
                             <li class="flex items-center">
-                                <svg class="w-4 h-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                <svg class="w-4 h-4 mr-2 text-green-500 flex-shrink-0" fill="currentColor"
+                                    viewBox="0 0 20 20">
                                     <path fill-rule="evenodd"
                                         d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
                                         clip-rule="evenodd"></path>
                                 </svg>
-                                High accuracy speech recognition
+                                <span>High accuracy speech recognition</span>
                             </li>
                             <li class="flex items-center">
-                                <svg class="w-4 h-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                <svg class="w-4 h-4 mr-2 text-green-500 flex-shrink-0" fill="currentColor"
+                                    viewBox="0 0 20 20">
                                     <path fill-rule="evenodd"
                                         d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
                                         clip-rule="evenodd"></path>
                                 </svg>
-                                Multiple voice options
+                                <span>Multiple voice options</span>
                             </li>
                         </ul>
                     </div>
@@ -549,38 +764,76 @@
                 easing: 'ease-out-cubic',
             });
 
-            // Preloader
-            setTimeout(function() {
-                const preloader = document.querySelector('.preloader');
-                preloader.classList.add('fade-out');
-                setTimeout(function() {
-                    preloader.style.display = 'none';
-                }, 500);
-            }, 1500);
-        });
+            // Enhanced preloader with status updates
+            const preloader = document.querySelector('.preloader');
+            const preloaderStatus = document.querySelector('.preloader-status');
 
-        // Animate background blobs
-        document.addEventListener('DOMContentLoaded', function() {
-            const blobs = document.querySelectorAll('.animate-blob');
-            blobs.forEach((blob, index) => {
-                blob.style.animation = `blob-${index + 1} 7s infinite`;
-                document.styleSheets[0].insertRule(`
-                    @keyframes blob-${index + 1} {
-                        0% {
-                            transform: translate(0px, 0px) scale(1);
-                        }
-                        33% {
-                            transform: translate(${30 - Math.random() * 60}px, ${30 - Math.random() * 60}px) scale(${1.1 + Math.random() * 0.4});
-                        }
-                        66% {
-                            transform: translate(${30 - Math.random() * 60}px, ${30 - Math.random() * 60}px) scale(${0.9 + Math.random() * 0.2});
-                        }
-                        100% {
-                            transform: translate(0px, 0px) scale(1);
-                        }
+            if (preloader) {
+                const statusMessages = [
+                    'Loading application...',
+                    'Initializing conversion tools...',
+                    'Setting up file handlers...',
+                    'Preparing user interface...',
+                    'Optimizing performance...',
+                    'Loading almost complete...',
+                    'Ready to transform your files!'
+                ];
+
+                let messageIndex = 0;
+
+                // Update status message every 400ms
+                const statusInterval = setInterval(function() {
+                    if (messageIndex < statusMessages.length) {
+                        preloaderStatus.textContent = statusMessages[messageIndex];
+                        messageIndex++;
+                    } else {
+                        clearInterval(statusInterval);
                     }
-                `, 0);
-            });
+                }, 400);
+
+                // Simulate counter animation for stats
+                document.querySelectorAll('.preloader-stat-number').forEach(function(stat) {
+                    const finalValue = stat.textContent;
+                    stat.textContent = '0';
+
+                    setTimeout(function() {
+                        // Simple counter animation
+                        let currentValue = 0;
+                        const targetValue = parseFloat(finalValue.replace(/[^0-9.]/g, ''));
+                        const suffix = finalValue.replace(/[0-9.]/g, '');
+                        const duration = 1500; // ms
+                        const interval = 30; // ms
+                        const steps = duration / interval;
+                        const increment = targetValue / steps;
+
+                        const counter = setInterval(function() {
+                            currentValue += increment;
+                            if (currentValue >= targetValue) {
+                                currentValue = targetValue;
+                                clearInterval(counter);
+                            }
+
+                            // Format the number appropriately
+                            if (targetValue >= 1000) {
+                                stat.textContent = Math.floor(currentValue)
+                                    .toLocaleString() + suffix;
+                            } else {
+                                stat.textContent = currentValue.toFixed(1).replace(/\.0$/,
+                                    '') + suffix;
+                            }
+                        }, interval);
+                    }, 1000); // Delay start of counter animation
+                });
+
+                // Hide preloader after animations complete
+                setTimeout(function() {
+                    preloader.classList.add('fade-out');
+
+                    setTimeout(function() {
+                        preloader.style.display = 'none';
+                    }, 800);
+                }, 3500);
+            }
         });
     </script>
 </body>
